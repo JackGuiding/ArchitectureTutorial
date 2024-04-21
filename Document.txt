@@ -1,3 +1,15 @@
 ==== 创建工程 ====
 1. .gitignore
 2. .omnisharp (样式格式化)
+    - alt + shift + F
+
+==== 架构作用 ====
+具体例子: 
+1. 隔了三年回头看自己代码/别人代码, 依然可以在5分钟内读懂/上手修改
+2. 加快修改效率
+3. 不加班
+
+==== 架构组成 ====
+1. 主入口
+    - 必须唯一
+    - 负责程序的生命周期: Awake/Start/FixedUpdate/Update/LateUpdate/OnDestroy...
