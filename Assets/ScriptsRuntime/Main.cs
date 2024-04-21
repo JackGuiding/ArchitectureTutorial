@@ -9,9 +9,9 @@ namespace ArchiTutorial {
     public class Main : MonoBehaviour {
 
         [SerializeField] Canvas canvas;
-        [SerializeField] Panel_Login p_loginPrefab;
 
         UIApp uiApp;
+        AssetModule assetModule;
         GameContext ctx;
 
         bool isTearDown;
@@ -24,10 +24,14 @@ namespace ArchiTutorial {
             // ==== Instantiate ====
             ctx = new GameContext();
             uiApp = new UIApp();
+            assetModule = new AssetModule();
 
             // ==== Inject ====
-            ctx.Inject(uiApp);
-            uiApp.Inject(canvas, p_loginPrefab);
+            ctx.Inject(uiApp, assetModule);
+            uiApp.Inject(canvas, assetModule);
+
+            // ==== Init ====
+            assetModule.LoadAll();
 
             // ==== Binding Event ====
             BindineEvent();
@@ -82,6 +86,9 @@ namespace ArchiTutorial {
             isTearDown = true;
 
             // 释放资源
+            assetModule.UnloadAll();
+            LoginBusiness.TearDown();
+            GameBusiness.TearDown();
         }
 
     }

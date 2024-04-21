@@ -14,14 +14,14 @@ namespace ArchiTutorial {
             ctx = new UIContext();
         }
 
-        public void Inject(Canvas canvas, Panel_Login loginPrefab) {
-            ctx.canvas = canvas;
-            ctx.p_loginPrefab = loginPrefab;
+        public void Inject(Canvas canvas, AssetModule assetModule) {
+            ctx.Inject(canvas, assetModule);
         }
 
         public void Panel_Login_Open() {
             if (ctx.p_login == null) {
-                Panel_Login panel = GameObject.Instantiate(ctx.p_loginPrefab, ctx.canvas.transform);
+                Panel_Login prefab = GetPrefab<Panel_Login>();
+                Panel_Login panel = GameObject.Instantiate(prefab, ctx.canvas.transform);
                 panel.Ctor();
 
                 // 低层访问高层, 但低层不需要知道高层的存在
@@ -39,6 +39,16 @@ namespace ArchiTutorial {
                 GameObject.Destroy(ctx.p_login.gameObject);
                 ctx.p_login = null;
             }
+        }
+
+        T GetPrefab<T>() where T : MonoBehaviour {
+            string name = typeof(T).Name;
+            bool has = ctx.assetModule.UI_TryGet(name, out GameObject prefab);
+            if (!has) {
+                Debug.LogError($"UIApp.GetPrefab<{name}>: prefab is null");
+                return null;
+            }
+            return prefab.GetComponent<T>();
         }
 
     }

@@ -7,13 +7,15 @@ namespace ArchiTutorial {
         public RoleRepository roleRepository;
 
         public UIApp uiApp;
+        public AssetModule assetModule;
 
         public GameContext() {
             roleRepository = new RoleRepository();
         }
 
-        public void Inject(UIApp uiApp) {
+        public void Inject(UIApp uiApp, AssetModule assetModule) {
             this.uiApp = uiApp;
+            this.assetModule = assetModule;
         }
 
     }
