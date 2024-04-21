@@ -31,6 +31,8 @@
 5. 存储整个游戏内容的地方: Context
 6. 控制逻辑: Controller
 7. 实体行为逻辑: Domain
+8. 各种高层应用: Application(UI)
+9. 各种模块: Asset/Camera/Audio...
 
 ==== 额外 ====
 // 面向对象
