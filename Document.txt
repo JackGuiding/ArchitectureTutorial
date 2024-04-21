@@ -1,0 +1,3 @@
+==== 创建工程 ====
+1. .gitignore
+2. .omnisharp (样式格式化)
