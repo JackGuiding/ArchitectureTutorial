@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace ArchiTutorial {
 
+    // 行为逻辑
     // 角色 领域
     public static class RoleDomain {
 

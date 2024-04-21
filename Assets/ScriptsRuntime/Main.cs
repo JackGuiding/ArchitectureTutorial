@@ -6,22 +6,22 @@ namespace ArchiTutorial {
 
     public class Main : MonoBehaviour {
 
-        bool isTearDown;
+        GameContext ctx;
 
-        RoleRepository roleRepository;
+        bool isTearDown;
 
         // 整个程序中只能有唯一的: Start/Update/LateUpdate
         void Awake() {
+
+            ctx = new GameContext();
 
             Application.targetFrameRate = 15;
 
             isTearDown = false;
 
-            roleRepository = new RoleRepository();
-
             // 想创建一个实体时, 找Factory
-            RoleEntity role = GameFactory.Role_Spawn();
-            roleRepository.Add(role);
+            // RoleEntity role = GameFactory.Role_Spawn();
+            // roleRepository.Add(role);
 
             // 面向对象
             // Logger logger = new Logger();
@@ -37,19 +37,15 @@ namespace ArchiTutorial {
 
             float dt = Time.deltaTime;
 
-            roleRepository.Foreach(role => {
-                RoleDomain.Move(role, Vector2.right, dt);
-            });
+            RoleController.Tick(ctx, dt);
+
+            // 控制: 控制哪个角色移动
+            // 行为: 角色移动
 
         }
 
         void OnDrawGizmos() {
-            Gizmos.color = Color.red;
-            if (roleRepository != null) {
-                roleRepository.Foreach(role => {
-                    Gizmos.DrawWireSphere(role.position, 0.5f);
-                });
-            }
+            RoleController.DrawGizmos(ctx);
         }
 
         void LateUpdate() {
