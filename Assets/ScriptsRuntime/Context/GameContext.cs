@@ -6,8 +6,14 @@ namespace ArchiTutorial {
 
         public RoleRepository roleRepository;
 
+        public UIApp uiApp;
+
         public GameContext() {
             roleRepository = new RoleRepository();
+        }
+
+        public void Inject(UIApp uiApp) {
+            this.uiApp = uiApp;
         }
 
     }

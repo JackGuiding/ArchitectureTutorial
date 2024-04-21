@@ -17,6 +17,8 @@ namespace ArchiTutorial {
         public float moveSpeed;
         public Vector2 position;
 
+        public GameContext ctx;
+
         public RoleEntity() {
 
         }

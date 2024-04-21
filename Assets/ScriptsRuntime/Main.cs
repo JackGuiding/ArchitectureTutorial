@@ -4,8 +4,14 @@ using UnityEngine;
 
 namespace ArchiTutorial {
 
+    // 登录~进入游戏前: 登录业务(Login/Lobby)
+    // 游戏内: 游戏业务
     public class Main : MonoBehaviour {
 
+        [SerializeField] Canvas canvas;
+        [SerializeField] Panel_Login p_loginPrefab;
+
+        UIApp uiApp;
         GameContext ctx;
 
         bool isTearDown;
@@ -13,23 +19,30 @@ namespace ArchiTutorial {
         // 整个程序中只能有唯一的: Start/Update/LateUpdate
         void Awake() {
 
-            ctx = new GameContext();
-
-            Application.targetFrameRate = 15;
-
             isTearDown = false;
 
-            // 想创建一个实体时, 找Factory
-            // RoleEntity role = GameFactory.Role_Spawn();
-            // roleRepository.Add(role);
+            // ==== Instantiate ====
+            ctx = new GameContext();
+            uiApp = new UIApp();
 
-            // 面向对象
-            // Logger logger = new Logger();
-            // logger.Log(); // object.function();
+            // ==== Inject ====
+            ctx.Inject(uiApp);
+            uiApp.Inject(canvas, p_loginPrefab);
 
-            // 面向过程
-            // Logger.Log(logger); // function(object);
+            // ==== Binding Event ====
+            BindineEvent();
 
+            // ==== Enter ====
+            LoginBusiness.Enter(ctx);
+
+        }
+
+        void BindineEvent() {
+            uiApp.Login_OnStartHandle = () => {
+                // 登录
+                LoginBusiness.Exit(ctx);
+                GameBusiness.Enter(ctx);
+            };
         }
 
         // Update is called once per frame
